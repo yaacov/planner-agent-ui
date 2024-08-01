@@ -5,10 +5,12 @@ import (
 	"net/http"
 )
 
+// ServerContext holds the context for the server, including the API URL.
 type ServerContext struct {
 	APIURL string
 }
 
+// Start initializes and starts the HTTPS server with the provided configuration.
 func Start(certFile, keyFile, apiURL, port, staticDir string) error {
 	ctx := &ServerContext{APIURL: apiURL}
 

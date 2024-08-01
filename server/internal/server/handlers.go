@@ -7,22 +7,26 @@ import (
 	"net/http"
 )
 
+// Credentials holds the vCenter cluster credentials.
 type Credentials struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	URL      string `json:"url"`
 }
 
+// Status represents the current status of the server.
 type Status struct {
 	Status string `json:"status"`
 	Msg    string `json:"msg"`
 }
 
+// ErrorResponse represents an error response to be sent to the client.
 type ErrorResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
 
+// HandleCredentials processes the incoming credentials and sends them to the backend API.
 func (ctx *ServerContext) HandleCredentials(w http.ResponseWriter, r *http.Request) {
 	var credentials Credentials
 	// Decode the request body into the credentials struct
@@ -66,6 +70,7 @@ func (ctx *ServerContext) HandleCredentials(w http.ResponseWriter, r *http.Reque
 	w.Write(body)
 }
 
+// HandleStatus responds with a simple status message indicating that the server is running.
 func HandleStatus(w http.ResponseWriter, r *http.Request) {
 	status := Status{
 		Status: "OK",
@@ -74,7 +79,7 @@ func HandleStatus(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(status)
 }
 
-// sendErrorResponse sends a JSON error response with a code and message
+// sendErrorResponse sends a JSON-formatted error response with the given HTTP status code and message.
 func sendErrorResponse(w http.ResponseWriter, code int, message string) {
 	response := ErrorResponse{
 		Code:    code,
