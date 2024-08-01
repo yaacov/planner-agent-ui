@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credentials Form</title>
+</head>
+<body>
+    <h1>Enter Credentials</h1>
+    <form id="credentialsForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="url">URL:</label><br>
+        <input type="text" id="url" name="url" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <p id="response"></p>
+
+    <script>
+        document.getElementById('credentialsForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            var username = document.getElementById('username').value;
+            var url = document.getElementById('url').value;
+            var password = document.getElementById('password').value;
+
+            var data = {
+                username: username,
+                url: url,
+                password: password
+            };
+
+            fetch('/api/credentials', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch((error) => {
+                document.getElementById('response').innerText = 'Error: ' + error;
+            });
+        });
+    </script>
+</body>
+</html>
