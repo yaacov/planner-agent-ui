@@ -36,38 +36,16 @@ func (ctx *ServerContext) HandleCredentials(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	// Marshal the credentials into JSON to send to the backend
-	jsonData, err := json.Marshal(credentials)
-	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, "Error encoding JSON")
-		return
-	}
-
-	// Make the PUT request to the backend API
-	req, err := http.NewRequest("PUT", ctx.APIURL+"/api/credentials", bytes.NewBuffer(jsonData))
-	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, "Error creating request: "+err.Error())
-		return
-	}
-	req.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	// Send credentials to the backend API
+	respBody, statusCode, err := ctx.sendCredentialsToBackend(credentials)
 	if err != nil {
 		sendErrorResponse(w, http.StatusInternalServerError, "Error making PUT request: "+err.Error())
 		return
 	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, "Error reading response: "+err.Error())
-		return
-	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(resp.StatusCode)
-	w.Write(body)
+	w.WriteHeader(statusCode)
+	w.Write(respBody)
 }
 
 // HandleStatus responds with a simple status message indicating that the server is running.
@@ -77,6 +55,37 @@ func HandleStatus(w http.ResponseWriter, r *http.Request) {
 		Msg:    "Server is running",
 	}
 	json.NewEncoder(w).Encode(status)
+}
+
+// sendCredentialsToBackend sends the credentials to the backend API and returns the response body, status code, and any error encountered.
+func (ctx *ServerContext) sendCredentialsToBackend(credentials Credentials) ([]byte, int, error) {
+	// Marshal the credentials into JSON
+	jsonData, err := json.Marshal(credentials)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
+
+	// Make the PUT request to the backend API
+	req, err := http.NewRequest("PUT", ctx.APIURL+"/api/credentials", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
+	defer resp.Body.Close()
+
+	// Read the response body
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
+
+	return body, resp.StatusCode, nil
 }
 
 // sendErrorResponse sends a JSON-formatted error response with the given HTTP status code and message.
