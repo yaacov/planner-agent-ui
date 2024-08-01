@@ -6,7 +6,7 @@ BUILD_DIR=build
 BINARY_NAME=planner-agent-ui
 STATIC_DIR=static
 CERT_FILE=config/cert.pem
-KEY_FILE=server/config/key.pem
+KEY_FILE=config/key.pem
 API_URL=http://127.0.0.1:3333
 PORT=8443
 
