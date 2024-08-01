@@ -22,6 +22,14 @@ test:
 build:
 	go build -o $(BUILD_DIR)/$(BINARY_NAME) ./cmd
 
+# Image
+image:
+	podman build -t quay.io/kubev2v/planner-agent-ui .
+
+# Run image
+run-image:
+	podman run -it -p 8443:8443 quay.io/kubev2v/planner-agent-ui
+
 # Run
 run: build
 	$(BUILD_DIR)/$(BINARY_NAME) --cert=$(CERT_FILE) --key=$(KEY_FILE) --api-url=$(API_URL) --port=$(PORT) --static-dir=$(STATIC_DIR)

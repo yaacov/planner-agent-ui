@@ -9,7 +9,7 @@ COPY . .
 
 # Run build as supper tux
 USER 0
-RUN go build -o /planner-agent-ui cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -buildvcs=false -o /planner-agent-ui cmd/main.go
 
 # Web server container
 FROM registry.access.redhat.com/ubi9/ubi
@@ -26,4 +26,4 @@ USER 1001
 
 # Run the server
 EXPOSE 8443
-CMD ["/app/planner-agent-ui", "--cert=/app/config/cert.pem", "--key=/app/config/key.pem", "--api-url=http://localhost:8080", "--port=8443", "--static-dir=/app/static"]
+CMD ["/app/planner-agent-ui", "--cert=/app/config/cert.pem", "--key=/app/config/key.pem", "--api-url=http://127.0.0.1:3333", "--port=8443", "--static-dir=/app/static"]
