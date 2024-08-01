@@ -4,23 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credentials Form</title>
+
+    <style>
+        /* General styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Backdrop styling */
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            width: 380px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form styling */
+        #credentialsForm label, #credentialsForm input {
+            display: block;
+            width: 90%;
+            padding-top: 18px;
+        }
+
+        #credentialsForm input[type="text"], #credentialsForm input[type="password"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #credentialsForm input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            width: max-content;
+        }
+
+        #credentialsForm input[type="submit"]:hover {
+            background-color: #0056b3;
+            width: fit-content;
+        }
+
+        /* Alert styling */
+        .alert {
+            background-color: #fff3cd;
+            border-top: 2px solid #ffcb2b;
+            border-bottom: 2px solid #ffcb2b;
+            padding: 10px;
+        }
+
+        .alert p {
+            margin: 0;
+            color: #856404;
+        }
+    </style>
 </head>
 <body>
-    <h1>Enter Credentials</h1>
-    <form id="credentialsForm">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+    <div class="backdrop">
+        <div class="card">
+            <h2>Enter vCenter Credentials</h2>
+            <form id="credentialsForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
 
-        <label for="url">URL:</label><br>
-        <input type="text" id="url" name="url" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+                <label for="url">vCenter API URL:</label>
+                <input type="text" id="url" name="url" required>
 
-        <input type="submit" value="Submit">
-    </form>
+                </br>
+                <input type="submit" value="Submit">
+            </form>
 
-    <p id="response"></p>
+            </br>
+            <div id="alert" class="alert" hidden>
+                <p id="response"></p>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.getElementById('credentialsForm').addEventListener('submit', function(event) {
@@ -45,9 +127,11 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('response').innerText = JSON.stringify(data, null, 2);
+                document.getElementById('alert').removeAttribute('hidden')
+                document.getElementById('response').innerText = JSON.stringify(data['message'], null, 2);
             })
             .catch((error) => {
+                document.getElementById('alert').removeAttribute('hidden')
                 document.getElementById('response').innerText = 'Error: ' + error;
             });
         });
