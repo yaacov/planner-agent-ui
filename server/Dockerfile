@@ -12,7 +12,7 @@ USER 0
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -buildvcs=false -o /planner-agent-ui cmd/main.go
 
 # Web server container
-FROM registry.access.redhat.com/ubi9/ubi
+FROM registry.access.redhat.com/ubi9/ubi-micro
 
 WORKDIR /app
 

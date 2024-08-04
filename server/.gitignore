@@ -21,5 +21,5 @@
 go.work
 go.work.sum
 
-server/bin
-server/build
+bin
+build
