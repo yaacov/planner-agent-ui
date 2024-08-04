@@ -2,6 +2,8 @@ IMAGE_REGISTRY     ?= quay.io
 REGISTRY_NAMESPACE ?= kubev2v
 IMAGE_TAG          ?= latest
 
+CONTAINER_RUNTIME=scripts/container-wrapper.sh
+
 GOLANDCI_LINT_VERSION ?= v1.57.0
 
 GOPATH?=$(shell go env GOPATH)
@@ -27,12 +29,16 @@ build:
 	go build -o build/planner-agent-ui ./cmd
 
 # Image
-image:
-	podman build -t $(IMAGE_REGISTRY)/$(REGISTRY_NAMESPACE)/planner-agent-ui:$(IMAGE_TAG) .
+build-image:
+	$(CONTAINER_RUNTIME) build -t $(IMAGE_REGISTRY)/$(REGISTRY_NAMESPACE)/planner-agent-ui:$(IMAGE_TAG) .
 
 # Run image
+.ONESHELL:
 run-image:
-	podman run -it -p 8443:8443 $(IMAGE_REGISTRY)/$(REGISTRY_NAMESPACE)/planner-agent-ui:$(IMAGE_TAG)
+	$(CONTAINER_RUNTIME) run -it \
+		--name planner-agent-ui \
+		-p 8443:8443 \
+		$(IMAGE_REGISTRY)/$(REGISTRY_NAMESPACE)/planner-agent-ui:$(IMAGE_TAG)
 
 # Run
 run: build
