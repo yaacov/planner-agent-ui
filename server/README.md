@@ -21,11 +21,6 @@ This server is part of the Planner Agent UI, designed for managing and displayin
    cd planner-agent-ui/server
    ```
 
-2. **Install Dependencies and Tools:**
-   ```bash
-   make tools
-   ```
-
 ## Configuration
 
 - **CERT_FILE:** Path to the SSL certificate file (default: `config/cert.pem`)
