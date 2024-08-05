@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "target": "ESNext",
+        "module": "ESNext",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./build",
+        "declaration": true,
+        "declarationDir": "./types",
+
+        "experimentalDecorators": true,
+        "useDefineForClassFields": true
+    },
+    "include": ["src/*", "src/**/*", "types/**/*.d.ts"],
+    "exclude": []
+}
