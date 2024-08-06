@@ -66,7 +66,7 @@ func (ctx *ServerContext) sendCredentialsToBackend(credentials Credentials) ([]b
 	}
 
 	// Make the PUT request to the backend API
-	req, err := http.NewRequest("PUT", ctx.APIURL+"/api/credentials", bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("PUT", ctx.APIURL+"/credentials", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, http.StatusInternalServerError, err
 	}
