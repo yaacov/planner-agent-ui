@@ -31,9 +31,10 @@
         /* Card styling */
         .card {
             background-color: #fff;
-            border-radius: 5px;
-            padding: 20px;
-            width: 380px;
+            border-radius: 2px;
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 480px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
@@ -73,6 +74,13 @@
             padding: 10px;
         }
 
+        .message {
+            background-color: #e4f3dc;
+            border-top: 2px solid #60c724;
+            border-bottom: 2px solid #60c724;
+            padding: 10px;
+        }
+
         .alert p {
             margin: 0;
             color: #856404;
@@ -95,12 +103,18 @@
 
                 </br>
                 <input type="submit" value="Submit">
-            </form>
 
-            </br>
-            <div id="alert" class="alert" hidden>
-                <p id="response"></p>
-            </div>
+                </br>
+                <div id="alert" class="alert" hidden>
+                    <p id="response-alert"></p>
+                </div>
+
+                <div id="message" class="message" hidden>
+                    <p id="response-message"></p>
+                </div>
+
+                </br>
+            </form>
         </div>
     </div>
 
@@ -125,10 +139,16 @@
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
-                document.getElementById('alert').removeAttribute('hidden')
-                document.getElementById('response').innerText = JSON.stringify(data['message'], null, 2);
+                if (data.trim() === "") {
+                    document.getElementById('message').removeAttribute('hidden')
+                    document.getElementById('response-message').innerText =
+                        'Credentials confirmed. You may close this tab and continue with your migration.';
+                } else {
+                    document.getElementById('alert').removeAttribute('hidden')
+                    document.getElementById('response-alert').innerText = data;
+                }
             })
             .catch((error) => {
                 document.getElementById('alert').removeAttribute('hidden')
