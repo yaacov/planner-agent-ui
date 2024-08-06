@@ -35,9 +35,9 @@ build-image:
 # Run image
 .ONESHELL:
 run-image:
-	$(CONTAINER_RUNTIME) run -it \
+	$(CONTAINER_RUNTIME) run --rm -it \
 		--name planner-agent-ui \
-		-p 8443:8443 \
+		--network host \
 		$(IMAGE_REGISTRY)/$(REGISTRY_NAMESPACE)/planner-agent-ui:$(IMAGE_TAG)
 
 # Run
