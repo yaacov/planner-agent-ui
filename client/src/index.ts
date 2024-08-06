@@ -1,4 +1,4 @@
-import './components/login-form';
+import './components/login-form/login-form';
 import handleLogin from './utils/handleLogin';
 
 const app = document.getElementById('app');
