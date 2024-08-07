@@ -1,7 +1,13 @@
 import * as esbuild from 'esbuild';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as url from 'url';
 import { litCssPlugin } from 'esbuild-plugin-lit-css';
+import { fileURLToPath } from 'url';
+
+// Current direcotry
+const __filename = url.fileURLToPath(new URL(import.meta.url));
+const __dirname = path.dirname(__filename);
 
 // Function to copy a directory recursively
 function copyDir(src, dest) {
@@ -25,19 +31,42 @@ function copyDir(src, dest) {
 
 // Function to copy and process index.html
 function copyAndProcessIndexHtml() {
+  // Define source and destination file paths
   const srcFile = path.resolve(__dirname, '../src/index.html');
   const destFile = path.resolve(__dirname, '../build/index.html');
+  
   const html = fs.readFileSync(srcFile, 'utf-8');
-
-  fs.writeFileSync(destFile, html);
+  const processedHtml = html.replace('index.ts', 'bundle.js');
+  
+  // Write the processed HTML to the destination file
+  fs.writeFileSync(destFile, processedHtml);
 }
 
-// Call the copyDir function on the assets directory
+/**
+ * Copies PatternFly assets from the source directory to the destination directory.
+ */
 function copyAssets() {
-  const srcDir = path.resolve(__dirname, '../src/assets');
-  const destDir = path.resolve(__dirname, '../build/assets');
+  // Define the source and destination directories for PatternFly icons
+  const srcDir = fileURLToPath(new URL('../node_modules/@patternfly', import.meta.url));
+  const destDir = path.join(__dirname, '../build/node_modules'); // Replace 'path_to_destination' with the actual destination path
+  
+  // Create the destination directory, including any necessary parent directories
+  fs.mkdirSync(path.join(destDir, '@patternfly', 'icons'), { recursive: true });
 
-  copyDir(srcDir, destDir);
+  // Copy the contents of the source directory to the destination directory
+  copyDir(path.join(srcDir, 'icons'), path.join(destDir, '@patternfly', 'icons'));
+
+  // Create the destination directory, including any necessary parent directories
+  fs.mkdirSync(path.join(destDir, '@patternfly', 'patternfly', 'assets'), { recursive: true });
+
+  // Copy the contents of the source directory to the destination directory
+  copyDir(path.join(srcDir, 'patternfly', 'assets'), path.join(destDir, '@patternfly', 'patternfly', 'assets'));
+
+  // Copy style files
+  const styles = fs.readFileSync(path.join(srcDir, 'patternfly', 'patternfly-base.css'), 'utf-8');
+  
+  // Write the processed HTML to the destination file
+  fs.writeFileSync(path.join(destDir, '@patternfly', 'patternfly', 'patternfly-base.css'), styles);
 }
 
 // Build configuration for esbuild

@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "This client is part of the Planner Agent UI",
     "main": "build/bundle.js",
+    "type": "module",
     "scripts": {
         "build": "tsx scripts/build.ts",
         "serve": "tsx scripts/serve.ts",
@@ -26,6 +27,7 @@
         "typescript-eslint": "^8.0.0"
     },
     "dependencies": {
+        "@patternfly/elements": "^3.0.2",
         "@patternfly/patternfly": "^5.3.1",
         "lit": "^3.1.4"
     }

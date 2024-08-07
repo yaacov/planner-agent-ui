@@ -4,11 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planner UI</title>
-  <link rel="stylesheet" href="assets/styles/patternfly-base.css">
+  <link rel="stylesheet" href="/node_modules/@patternfly/patternfly/patternfly-base.css">
   <link rel="stylesheet" href="assets/styles/main.css">
+  <script type="importmap">
+    {"imports":{
+      "@patternfly/icons/": "/node_modules/@patternfly/icons/"
+    }}
+  </script>
 </head>
 <body>
   <div id="app"></div>
-  <script src="./bundle.js"></script>
+  <script src="./index.ts"></script>
 </body>
 </html>
