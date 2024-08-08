@@ -10,5 +10,5 @@ The Planner-Agent UI is a tool designed for managing and displaying vCenter clus
 To start the HTTP server, run the container image using the following command. The server will listen on port 8443 and display a page with a form for entering cluster credentials. This data will be sent to an API server running on port 3333.
 
 ```bash
-podman run -it -p 8443:8443 quay.io/kubev2v/planner-agent-ui
+podman run -it --network host quay.io/kubev2v/planner-agent-ui
 ```
