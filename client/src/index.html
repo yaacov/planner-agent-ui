@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planner UI</title>
-  <link rel="stylesheet" href="/node_modules/@patternfly/patternfly/patternfly-base.css">
+  <link rel="stylesheet" href="node_modules/@patternfly/patternfly/patternfly.css">
   <link rel="stylesheet" href="assets/styles/main.css">
   <script type="importmap">
     {"imports":{
@@ -13,7 +13,9 @@
   </script>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="./index.ts"></script>
+  <planner-app></planner-app>
+  <script type="module">
+    import "./index.js";
+  </script>
 </body>
 </html>

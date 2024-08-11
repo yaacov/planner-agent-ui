@@ -1,4 +1,3 @@
-
 export function handleLogin(event: CustomEvent) {
   const { url, username, password } = event.detail;
   console.log('URL:', url);
@@ -8,23 +7,23 @@ export function handleLogin(event: CustomEvent) {
   const data = {
     username: username,
     url: url,
-    password: password
+    password: password,
   };
-    
+
   fetch('/api/credentials', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       console.log('Response dats:', data);
     })
     .catch((error) => {
       console.error('Response error:', error);
     });
 }
-  
+
 export default handleLogin;
