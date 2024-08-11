@@ -18,7 +18,7 @@ async function serve() {
   const config = getBuildConfig({
     sourcemap: true,
     banner: {
-      js: `new EventSource('/esbuild').onmessage = () => location.reload();`, // Shorter reload script
+      js: `new EventSource('/esbuild').addEventListener('change', () => location.reload());`,
     },
   });
 
@@ -30,7 +30,8 @@ async function serve() {
   });
 
   // Watch *.ts files
-  ctx.watch();
+  await ctx.watch();
+  console.log('watching...');
 
   const { host, port } = server;
   console.log(`Server is running at http://${host}:${port}`);
