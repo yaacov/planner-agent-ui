@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, css, html, unsafeCSS } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { property } from 'lit/decorators/property.js';
 
@@ -6,7 +6,11 @@ import styles from './login-form.css';
 
 @customElement('login-form')
 export class LoginForm extends LitElement {
-  static styles = [styles];
+  static styles = [
+    css`
+      ${unsafeCSS(styles)}
+    `,
+  ];
 
   @property({ type: String }) url = '';
   @property({ type: String }) username = '';
@@ -16,13 +20,34 @@ export class LoginForm extends LitElement {
     return html`
       <form @submit="${this.handleSubmit}">
         <label for="url">URL</label>
-        <input id="url" type="url" .value="${this.url}" @input="${this.handleInput}" name="url" required />
+        <input
+          id="url"
+          type="url"
+          .value="${this.url}"
+          @input="${this.handleInput}"
+          name="url"
+          required
+        />
 
         <label for="username">Username</label>
-        <input id="username" type="text" .value="${this.username}" @input="${this.handleInput}" name="username" required />
+        <input
+          id="username"
+          type="text"
+          .value="${this.username}"
+          @input="${this.handleInput}"
+          name="username"
+          required
+        />
 
         <label for="password">Password</label>
-        <input id="password" type="password" .value="${this.password}" @input="${this.handleInput}" name="password" required />
+        <input
+          id="password"
+          type="password"
+          .value="${this.password}"
+          @input="${this.handleInput}"
+          name="password"
+          required
+        />
 
         <button type="submit">Login</button>
       </form>

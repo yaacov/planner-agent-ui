@@ -5,23 +5,24 @@
     "main": "build/bundle.js",
     "type": "module",
     "scripts": {
-        "build": "tsx scripts/build.ts",
-        "serve": "tsx scripts/serve.ts",
-        "lint": "eslint ./src/",
-        "lint:fix": "eslint ./src/ --fix",
-        "clean": "rm -rf build"
+        "build": "node scripts/build.js",
+        "serve": "node scripts/serve.js",
+        "lint": "eslint ./src ./scripts",
+        "lint:fix": "eslint ./src ./scripts --fix",
+        "clean": "rm -rf build",
+        "clean:all": "rm -rf build node_modules"
     },
     "author": "Yaacov Zamir<yzamir@redhat.com>",
     "license": "Apache-2.0",
     "devDependencies": {
         "@eslint/js": "^9.8.0",
-        "@stylistic/eslint-plugin": "^2.6.1",
         "@types/eslint__js": "^8.42.3",
         "@types/node": "^22.1.0",
-        "@web/dev-server-esbuild": "^1.0.2",
         "esbuild": "^0.23.0",
-        "esbuild-plugin-lit-css": "^3.0.1",
         "eslint": "^9.8.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "prettier": "3.3.3",
         "tsx": "^4.16.5",
         "typescript": "^5.5.4",
         "typescript-eslint": "^8.0.0"

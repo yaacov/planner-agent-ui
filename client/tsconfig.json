@@ -1,19 +1,16 @@
 {
     "compilerOptions": {
-        "moduleResolution": "node",
-        "target": "ESNext",
+        "moduleResolution": "Bundler",
+        "target": "ES6",
         "module": "ESNext",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "outDir": "./build",
-        "declaration": true,
-        "declarationDir": "./types",
 
         "experimentalDecorators": true,
         "useDefineForClassFields": true
     },
-    "include": ["src/*", "src/**/*", "types/**/*.d.ts"],
-    "exclude": []
+    "include": ["src/*.ts", "src/**/*.ts"],
+    "exclude": ["node_modules", "src/**/*_test.ts"]
 }
